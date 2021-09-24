@@ -1,0 +1,71 @@
+*{
+    margin: 0;
+}
+
+body{
+    -webkit-user-select: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    min-height: 600px;
+}
+.titleBar {
+    position: absolute;
+    top: 0;
+    height: 35px;
+    width: 100%;
+    -webkit-app-region: drag;
+    border-bottom: solid 1px #a880ce;
+}
+.titleBar .left,
+.titleBar .right{
+    display: flex;
+    height: inherit;
+    -webkit-app-region: no-drag;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Carattere', cursive;
+}
+.titleBar .left{
+    float: left;
+}
+.titleBar .right{
+    float: right;
+}
+.titleBar .Tbtns{
+    height: 25px;
+    width: 25px;
+    display: flex;
+    align-items: center;
+    border-radius: 100%;
+    justify-content: center;
+    margin: .2rem;
+    /* background-color: #4878a3; */
+}
+
+.titleBar .Tbtns img{
+    height: 45%;
+}
+
+.titleBar .Tbtns:hover{
+    background-color: #107a9b;
+}
+.titleBar .Tbtns.cross{
+    background-color: #a33434af;
+}
+.titleBar .Tbtns.cross:hover{
+    background-color: #d32e4f;
+}
+
+.titleBar .iconLogo img,
+.titleBar .iconLogo{
+    height: 100%;
+    -webkit-app-region: drag;
+    padding: 0 2px;
+}
+.titleBar .title{
+    font-size: 20px;
+    font-weight: 500;
+    -webkit-app-region: drag;
+    color: white;
+    padding-top: 5px;
+    padding-left: 3px;
+}
