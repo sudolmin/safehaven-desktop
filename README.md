@@ -64,4 +64,4 @@ export {
 * Added application build script
 
 ### 0.1.0
-* Migration from React JS web-app to desktop-app using ElectronJS
+* Migration from [React JS web-app](https://github.com/sudolmin/SafeHeaven-React) to desktop-app using ElectronJS
