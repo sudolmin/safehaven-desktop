@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-// const path = require('path')
+const path = require('path')
 const ipc=ipcMain;
+const isDev = require('electron-is-dev');
+
 function createWindow () {
     const win = new BrowserWindow({
     width: 800,
@@ -18,8 +20,10 @@ function createWindow () {
     })
 
     // win.loadFile('./frontend/index.html');
-    win.loadURL('http://localhost:3000');
-
+    win.loadURL(isDev
+        ? 'http://localhost:3000'
+        : `file://${path.join(__dirname, '../build/index.html')}`
+    )
     ////IPC////
     ipc.on("closeApp", ()=>{
         win.close();
