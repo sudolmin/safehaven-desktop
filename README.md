@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# Safe Heaven Desktop
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description:
 
-## Available Scripts
+This project named to be as “Safe Heaven”, is designed for people who want to take charge for their security. 
 
-In the project directory, you can run:
+Safe Heaven is a desktop app built using React JS and ElectronJS framework and serverless AWS DynamoDB for storing data.
+Custom CSS is used for the UI.
 
-### `npm start`
+## User Flow: 
+1. User set a unique key.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![set key page](https://github.com/sudolmin/safehaven-desktop/blob/master/shsnap/setkeypage.PNG?raw=true)
+![user sets key](https://github.com/sudolmin/safehaven-desktop/blob/master/shsnap/setkeypage2.PNG?raw=true)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+2. User then authenticate using master key.
 
-### `npm test`
+![user sets key](https://github.com/sudolmin/safehaven-desktop/blob/master/shsnap/authenticate.PNG?raw=true)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. Dashboard view for Safe Heaven. User can create new entries, view, edit or delete existing entries.
 
-### `npm run build`
+![user sets key](https://github.com/sudolmin/safehaven-desktop/blob/master/shsnap/dashboard.PNG?raw=true)
+![user sets key](https://github.com/sudolmin/safehaven-desktop/blob/master/shsnap/showpwd.PNG?raw=true)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Setting up:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Installing dependencies
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`npm install`
 
-### `npm run eject`
+or equivalent in **yarn**
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2. Serving in dev-mode 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`npm run electron:serve`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+3. Building *exe* for Windows
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+`npm run electron:build`
 
-## Learn More
+### Add an extra file named `secret.js` in the *src/utils folder*
+And add these lines to the file:
+```
+const AWS = require("aws-sdk")
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+const docClient = new AWS.DynamoDB.DocumentClient({
+    region: "{yourDBregion}", "endpoint": "https://dynamodb.{yourDBendpoint}.amazonaws.com/",
+    "accessKeyId": {yourawsaccesskey}, //string
+    "secretAccessKey": {yourawssecretaccesskey}    //string
+});
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+export {
+    docClient
+}
+```
 
-### Code Splitting
+## Release Notes :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 0.4.1
+* Changes in encryption methods
 
-### Analyzing the Bundle Size
+### 0.3.3
+* Changes in UI 
+* Added application build script
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 0.1.0
+* Migration from React JS web-app to desktop-app using ElectronJS

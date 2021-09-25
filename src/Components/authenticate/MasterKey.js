@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { cryptmd5 } from "../../utils/encrypt";
-// import Alert from "./Alert";
 import Buttons from "../Buttons"
 import Note from "../Note";
 import TextBox from "../TextBox"
 const { docClient } = require('../../utils/secret');
+const { handleMasterKeylocal } = require('../../utils/bridge');
 
 const MasterKey = ({setmode}) => {
 
@@ -35,6 +35,7 @@ const MasterKey = ({setmode}) => {
         .then((data) => {
             if(data.Item['key']===cryptmd5(masterkey)){
                 setmode("passlist");
+                handleMasterKeylocal(cryptmd5(masterkey))
             }else{
                 setincorrectcred(true);
             }

@@ -1,5 +1,7 @@
+import { docClient } from "./secret";
+
 const { putdata } = require("./dbHandler");
-const { cryptmd5, encryptpwd} = require("./encrypt");
+const { cryptmd5, encryptpwd, decryptpwd} = require("./encrypt");
 require('dotenv').config();
 
 const datetimenow = () => {
@@ -32,17 +34,58 @@ const setMasterKeyHandler=async(key)=> {
 }
 
 async function createNewEntry(data) {
-    const pwdhash = encryptpwd(data['passwd']);
+    const encpwd = encryptpwd(data['passwd']);
     await putdata({
         id: data['id'],
         date: datetimenow(),
         platform: data['platform'],
         username: data['username'],
-        passwd: pwdhash
+        passwd: encpwd
     });
+}
+
+function handleMasterKeylocal(mkey="", mode="set", ssnkey='currMKey') {
+    if (mode==="get") {
+        return sessionStorage.getItem(ssnkey);
+    }
+    sessionStorage.setItem(ssnkey, mkey);
+    return;
+}
+
+// only called when we change master key
+function mkeysrecycler(newmkey) {
+    const oldMKey = handleMasterKeylocal("","get");
+    handleMasterKeylocal(oldMKey, "set", "oldMKey");
+    handleMasterKeylocal(cryptmd5(newmkey));
+    reencypter(oldMKey);
+}
+
+function reencypter(oldMKey) {
+
+    docClient.scan({
+        TableName: "safeheavendb"
+    })
+    .promise()
+    .then(data => {
+        const passdata = data.Items;
+        for (let index = 0; index < passdata.length; index++) {
+        const element = passdata[index];
+        var newdata = {
+            "id": element["id"],
+            "username": element["username"],
+            "passwd": decryptpwd(element["passwd"], oldMKey),
+            "platform": element["platform"]
+        }
+        console.log(`Reencrypted ${index+1}/${passdata.length}`);
+        createNewEntry(newdata);
+    }
+    })
+    .catch(console.error)
 }
 
 export {
     setMasterKeyHandler,
     createNewEntry,
+    handleMasterKeylocal,
+    mkeysrecycler
 }

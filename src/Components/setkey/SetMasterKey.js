@@ -4,7 +4,7 @@ import Buttons from "../Buttons"
 import TextBox from "../TextBox"
 import Note from "../Note";
 import PasswordStrengthBar from 'react-password-strength-bar';
-const { setMasterKeyHandler } = require("../../utils/bridge");
+const { setMasterKeyHandler, mkeysrecycler } = require("../../utils/bridge");
 
 const SetMasterKey = ({setmode, changekey}) => {
 
@@ -30,6 +30,9 @@ const SetMasterKey = ({setmode, changekey}) => {
             return;
         }
         setMasterKeyHandler(masterkey);
+        if (changekey) {
+            mkeysrecycler(masterkey);
+        }
         setmode('login');
     }
 
