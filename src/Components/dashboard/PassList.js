@@ -36,14 +36,12 @@ const PassList = ({setmode, changeSetKeyMode}) => {
     }
 
     function addTile(data, mode="") {
-        console.log(mode);
         if (mode==="edit") {
             var editedList = [...passInfoList].filter(entry => entry.id !== data['id']);
             var newList = [data, ...editedList];
         } else {
             newList = [data, ...passInfoList];
         }
-        console.log(newList);
         createNewEntry(data);
         setpassInfoList(newList);
         setformid(-1);

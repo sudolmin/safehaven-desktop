@@ -24,24 +24,22 @@ const datetimenow = () => {
 
 const setMasterKeyHandler=async(key)=> {
     const pwdhash = cryptmd5(key);
-    const resp = await putdata({
+    await putdata({
         id: "masterkey",
         date: datetimenow(),
         key: pwdhash
     }, "keydb");
-    console.log(resp);
 }
 
 async function createNewEntry(data) {
     const pwdhash = encryptpwd(data['passwd']);
-    const resp = await putdata({
+    await putdata({
         id: data['id'],
         date: datetimenow(),
         platform: data['platform'],
         username: data['username'],
         passwd: pwdhash
     });
-    console.log(resp);
 }
 
 export {

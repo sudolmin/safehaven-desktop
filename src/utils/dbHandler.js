@@ -15,7 +15,6 @@ async function getData(data, mode="") {
 }
 
 async function putdata(putdata, tablename="safeheavendb") {
-    console.log(putdata);
     docClient
         .put({
             Item: putdata,
@@ -23,7 +22,6 @@ async function putdata(putdata, tablename="safeheavendb") {
         })
         .promise()
         .then((data) => {
-            console.log(data);
             return data.Attributes})
         .catch((err)=>{
             console.error(err);
