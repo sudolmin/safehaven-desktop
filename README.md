@@ -49,12 +49,19 @@ const docClient = new AWS.DynamoDB.DocumentClient({
     "secretAccessKey": {yourawssecretaccesskey}    //string
 });
 
+const secretsalt = "{saltforencryption}";
+
 export {
-    docClient
+    docClient,
+    secretsalt
 }
 ```
 
 ## Release Notes :
+
+### 0.4.2
+* Putting secret keys in **secret.js** file
+* Encryption of username && platform along with password
 
 ### 0.4.1
 * Changes in encryption methods

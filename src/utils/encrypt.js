@@ -1,25 +1,23 @@
 import { handleMasterKeylocal } from "./bridge";
+import { secretsalt } from "./secret";
 
 const crypto = require("crypto");
 var CryptoJS = require("crypto-js");
 
-// const algorithm = 'aes-256-cbc';
-const salt = "84hbdksnsus84nh54pf-dmd=d,dos+ksmso82nfp";
-
 function cryptmd5(key){
     const str = key;
-    const md5Hasher = crypto.createHmac("md5", salt);
+    const md5Hasher = crypto.createHmac("md5", secretsalt);
     const pwdhash = md5Hasher.update(str).digest("hex");
     return pwdhash;
 }    
 
-function encryptpwd(password) {
+function encryptdata(password) {
     const mastersalt = handleMasterKeylocal("", "get")
     var encpassword = CryptoJS.AES.encrypt(password, mastersalt).toString();
     return encpassword;
 }
 
-function decryptpwd(encpassword, oldKey="") {
+function decryptdata(encpassword, oldKey="") {
     const mastersalt = oldKey===""? handleMasterKeylocal("", "get"): oldKey;
     var bytes  = CryptoJS.AES.decrypt(encpassword, mastersalt);
     var decpassword = bytes.toString(CryptoJS.enc.Utf8);
@@ -28,6 +26,6 @@ function decryptpwd(encpassword, oldKey="") {
 
 export {
     cryptmd5,
-    decryptpwd,
-    encryptpwd
+    decryptdata,
+    encryptdata
 }

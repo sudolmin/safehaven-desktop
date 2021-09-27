@@ -1,6 +1,6 @@
 import { FaPencilAlt, FaRegTrashAlt} from 'react-icons/fa'
 import { BiShowAlt } from 'react-icons/bi'
-import { decryptpwd } from '../../utils/encrypt';
+import { decryptdata } from '../../utils/encrypt';
 
 const ListTile = ({id, username, platform, password, editTile, showModalPwd, deleteTile, newEle}) => {
 
@@ -10,9 +10,9 @@ const ListTile = ({id, username, platform, password, editTile, showModalPwd, del
     function editEntry(){
         const data = {
             "id": id,
-            "username": username,
-            "passwd": newEle?password: decryptpwd(password),
-            "platform": platform
+            "username": newEle?username: decryptdata(username),
+            "passwd": newEle?password: decryptdata(password),
+            "platform": newEle?platform: decryptdata(platform)
         };
         editTile(data);
     }
@@ -22,7 +22,7 @@ const ListTile = ({id, username, platform, password, editTile, showModalPwd, del
         if (newEle) {
             pwd = password;
         } else {
-            pwd = decryptpwd(password);
+            pwd = decryptdata(password);
         }
         showModalPwd(pwd)
     }
@@ -36,8 +36,8 @@ const ListTile = ({id, username, platform, password, editTile, showModalPwd, del
     return (
         <div className={tileClass}>
             <div className="left">
-                <div className="username">{username}</div>
-                <div className="platform">{platform}</div>
+                <div className="username">{newEle?username: decryptdata(username)}</div>
+                <div className="platform">{newEle?platform: decryptdata(platform)}</div>
             </div>
             <div className="right">
                 <div className="show" onClick={showPwd}><BiShowAlt color="#1BB16B"/></div>

@@ -1,7 +1,7 @@
 import { docClient } from "./secret";
 
 const { putdata } = require("./dbHandler");
-const { cryptmd5, encryptpwd, decryptpwd} = require("./encrypt");
+const { cryptmd5, encryptdata, decryptdata} = require("./encrypt");
 require('dotenv').config();
 
 const datetimenow = () => {
@@ -34,13 +34,12 @@ const setMasterKeyHandler=async(key)=> {
 }
 
 async function createNewEntry(data) {
-    const encpwd = encryptpwd(data['passwd']);
     await putdata({
         id: data['id'],
         date: datetimenow(),
-        platform: data['platform'],
-        username: data['username'],
-        passwd: encpwd
+        platform: encryptdata(data['platform']),
+        username: encryptdata(data['username']),
+        passwd: encryptdata(data['passwd'])
     });
 }
 
@@ -72,9 +71,9 @@ function reencypter(oldMKey) {
         const element = passdata[index];
         var newdata = {
             "id": element["id"],
-            "username": element["username"],
-            "passwd": decryptpwd(element["passwd"], oldMKey),
-            "platform": element["platform"]
+            "username": decryptdata(element["username"]),
+            "passwd": decryptdata(element["passwd"], oldMKey),
+            "platform": decryptdata(element["platform"])
         }
         console.log(`Reencrypted ${index+1}/${passdata.length}`);
         createNewEntry(newdata);
